@@ -272,8 +272,7 @@ class PublicShareDialogFragment : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ocShareViewModel = ViewModelProviders.of(this, mViewModelFactory).
-                get(OCShareViewModel::class.java)
+        ocShareViewModel = ViewModelProviders.of(this, mViewModelFactory).get(OCShareViewModel::class.java)
     }
 
     private fun onSaveShareSetting() {
@@ -316,7 +315,7 @@ class PublicShareDialogFragment : DialogFragment() {
 
         if (!updating()) { // Creating a new public share
             ocShareViewModel.insertPublicShareForFile(
-                    mFile!!,
+                    mFile?.remotePath!!,
                     publicLinkName,
                     publicLinkPassword!!,
                     publicLinkExpirationDateInMillis,
@@ -326,13 +325,21 @@ class PublicShareDialogFragment : DialogFragment() {
                     this,
                     Observer { resource ->
                         when (resource?.status) {
+                            Status.SUCCESS -> {
+                                dismiss()
+                            }
                             Status.ERROR -> {
-                                val errorMessage = ErrorMessageAdapter.getResultMessage(
-                                        resource.code,
-                                        resource.exception,
-                                        OperationType.CREATE_PUBLIC_SHARE,
-                                        resources
-                                )
+                                val errorMessage: String;
+                                if (resource.msg != null) {
+                                    errorMessage = resource.msg;
+                                } else {
+                                    errorMessage = ErrorMessageAdapter.getResultMessage(
+                                            resource.code,
+                                            resource.exception,
+                                            OperationType.CREATE_PUBLIC_SHARE,
+                                            resources
+                                    )
+                                }
                                 showError(errorMessage)
                             }
                             Status.LOADING -> {

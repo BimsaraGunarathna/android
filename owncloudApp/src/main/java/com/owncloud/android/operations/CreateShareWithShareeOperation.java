@@ -73,8 +73,6 @@ public class CreateShareWithShareeOperation extends SyncOperation {
                 mPath,
                 mShareType,
                 mShareeName,
-                false,
-                "",
                 mPermissions
         );
         operation.setGetShareDetails(true);

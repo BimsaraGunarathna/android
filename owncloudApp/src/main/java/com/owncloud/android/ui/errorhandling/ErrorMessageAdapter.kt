@@ -112,13 +112,13 @@ class ErrorMessageAdapter {
 
                 val shareResult = result as RemoteOperationResult<ShareParserResult>
 
-                if (shareResult.data != null) {
-                    return if (shareResult.data.shares != null && shareResult.data.shares.size > 0) {
-                        shareResult.data.shares[0].toString()
-                    } else {
-                        shareResult.data.parserMessage
-                    }
-                }
+//                if (shareResult.data != null) {
+//                    return if (shareResult.data.shares != null && shareResult.data.shares.size > 0) {
+//                        shareResult.data.shares[0].toString()
+//                    } else {
+//                        shareResult.data.parserMessage
+//                    }
+//                }
             }
             when (result.code) {
                 RemoteOperationResult.ResultCode.LOCAL_STORAGE_FULL -> return f.format(
